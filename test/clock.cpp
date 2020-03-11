@@ -11,6 +11,13 @@ void tearDown()
 {
 }
 
+void test_current_time()
+{
+}
+void test_current_date()
+{
+}
+
 int main()
 {
     UNITY_BEGIN();

@@ -24,15 +24,35 @@ void display_draw_filled_circle(point_t center, int radius)
 
 bool display_init()
 {
-    bool status = false;
+    bool status = (!epd.Init(lut_full_update) && !epd.Init(lut_full_update));
 
+    if (status)
+    {
+        display_clear();
+
+        paint.SetRotate(ROTATE_0);
+
+        epd.ClearFrameMemory(BLACK);
+        epd.DisplayFrame();
+        epd.ClearFrameMemory(BLACK);
+        epd.DisplayFrame();
+    }
     return status;
 }
 
 void display_refresh(bool full)
 {
+
+    epd.SetFrameMemory(paint.GetImage(), 0, 0, paint.GetWidth(), paint.GetHeight());
+    epd.DisplayFrame();
+    if (full)
+    {
+        epd.SetFrameMemory(paint.GetImage(), 0, 0, paint.GetWidth(), paint.GetHeight());
+        epd.DisplayFrame();
+    }
 }
 
 void display_clear(void)
 {
+    paint.Clear(WHITE);
 }
