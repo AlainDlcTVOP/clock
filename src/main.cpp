@@ -22,15 +22,18 @@ void setup()
 
 void loop()
 {
+    //canvas_update();
     terminal_show_menu();
     char command = terminal_get_command();
 
     if (DATETIME_SET == command)
     {
-        timeservice_set_date_time(terminal_get_date_time());
+        datetime_t datetime = terminal_get_date_time();
+        timeservice_set_date_time(datetime);
     }
     else if (DATETIME_GET == command)
     {
-        terminal_show_date_time(timeservice_get_date_time());
+        datetime_t datetime = timeservice_get_date_time();
+        terminal_show_date_time(datetime);
     }
 }
