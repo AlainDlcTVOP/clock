@@ -30,7 +30,8 @@
 #define CLOCK_ORIGO \
     (point_t) { DISPLAY_WIDTH / 2 - 1, 64 }
 #define CLOCK_RADIUS (CANVAS_WIDTH - 4) / 2.0
-#define DOT_LARGE 3
+
+#define DOT_LARGE 4
 #define DOT_MEDIUM 2
 #define DOT_SMALL 1
 
@@ -39,22 +40,31 @@
 #define QUARTERS 4
 #define HOUR_INTERVAL 30 // (360/12)
 #define MINUTE_INTERVAL (HOUR_INTERVAL / 5.0)
-#define HOUR_HAND_LENGTH (CLOCK_RADIUS * 0.5)
-#define MINUTE_HAND_LENGTH (CLOCK_RADIUS * 0.75)
+#define HOUR_HAND_LENGTH (CLOCK_RADIUS * 0.55)
+#define MINUTE_HAND_LENGTH (CLOCK_RADIUS * 0.85)
 #define DEG_PER_TURN 360
 #define CLOCK_ANGLE_OFFSET -90.0
 #define DEG_PER_HOURS (DEG_PER_TURN / (HOURS * (double)MINS_PER_HOUR))
-#define DEG_PER_MINS (DEG_PER_TURN / 60)
+#define DEG_PER_MINS (DEG_PER_TURN / MINS_PER_HOUR)
 
 #define MONTH_OFFSET -1
 
 static datetime_t (*get_current_time)(void);
 
-const char *months[] =
-    {
-        "January", "Febuary", "March", "April",
-        "May", "June", "july", "August",
-        "September", "October", "November", "December"};
+const char *months[] = {
+    "January",
+    "Febuary",
+    "March",
+    "April",
+    "May",
+    "June",
+    "july",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+};
 
 static inline point_t coords_of_circle(point_t origo, double degrees, double radius)
 {

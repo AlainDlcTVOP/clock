@@ -9,12 +9,12 @@
 void setup()
 {
     io_interface_t io_interface =
-    {
-        .io_begin = comdriver_begin,
-        .io_read = comdriver_read,
-        .io_write = comdriver_write,
-        .io_clear = comdriver_clear
-    };
+        {
+            .io_begin = comdriver_begin,
+            .io_read = comdriver_read,
+            .io_write = comdriver_write,
+            .io_clear = comdriver_clear,
+        };
 
     terminal_begin(io_interface);
     timeservice_delay(DELAY);
@@ -31,7 +31,6 @@ void setup()
 
 void loop()
 {
-    //canvas_update();
     terminal_show_menu();
     char command = terminal_get_command();
 
