@@ -50,7 +50,7 @@ void display_draw_line(point_t start, point_t end)
     }
 }
 
-void display_draw_text(point_t start, uint8_t font_size, const char *text, uint8_t option_flag)
+void display_draw_text(point_t start, uint8_t font_size, const char *text)
 {
     sFONT *sfont_ptr;
     switch (font_size)
@@ -79,30 +79,15 @@ void display_draw_text(point_t start, uint8_t font_size, const char *text, uint8
         sfont_ptr = &Font16;
         break;
     }
-    if (option_flag == CENTER_X)
+
+    if (start.x >= 0)
     {
-        const int padding = (DISPLAY_WIDTH - (sfont_ptr->Width * (strlen(text)))) / 2 - 1;
-        paint.DrawStringAt(padding, start.y, text, sfont_ptr, BLACK);
-    }
-    else if (option_flag == CENTER_SELF_X)
-    {
-        const int padding = (sfont_ptr->Width * (strlen(text))) / 2;
-        paint.DrawStringAt(start.x - padding, start.y, text, sfont_ptr, BLACK);
-    }
-    else if (option_flag == CENTER_SELF_Y)
-    {
-        const int padding = sfont_ptr->Height / 2;
-        paint.DrawStringAt(start.x, start.y - padding, text, sfont_ptr, BLACK);
-    }
-    else if (option_flag == CENTER_SELF_XY)
-    {
-        const int padding_x = (sfont_ptr->Width * (strlen(text))) / 2;
-        const int padding_y = sfont_ptr->Height / 2;
-        paint.DrawStringAt(start.x - padding_x, start.y - padding_y, text, sfont_ptr, BLACK);
+        paint.DrawStringAt(start.x, start.y, text, sfont_ptr, BLACK);
     }
     else
     {
-        paint.DrawStringAt(start.x, start.y, text, sfont_ptr, BLACK);
+        const int padding = (DISPLAY_WIDTH - (sfont_ptr->Width * (strlen(text)))) / 2 - 1;
+        paint.DrawStringAt(padding, start.y, text, sfont_ptr, BLACK);
     }
 }
 
