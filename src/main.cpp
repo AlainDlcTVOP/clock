@@ -31,6 +31,7 @@ void setup()
 
 void loop()
 {
+    //canvas_update();
     terminal_show_menu();
     char command = terminal_get_command();
 

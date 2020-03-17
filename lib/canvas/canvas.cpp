@@ -131,6 +131,7 @@ void canvas_update(void)
     draw_clock_hands(datetime);
 
     display_draw_filled_circle(CLOCK_ORIGO, DOT_LARGE);
+
     display_refresh(false);
 }
 
