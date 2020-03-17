@@ -8,6 +8,34 @@ datetime_t timeservice_get_date_time(void)
 {
     return {.second = second(), .minute = minute(), .hour = hour(), .day = day(), .month = month(), .year = year()};
 }
+
+io_interface_t io_interface =
+    {
+        .io_begin = comdriver_begin,
+        .io_read = comdriver_read,
+        .io_write = comdriver_write,
+        .io_clear = comdriver_clear
+    };
+
+char comdriver_read(void)
+{
+    return getchar();
+}
+
+void comdriver_begin(void)
+{
+    ;
+}
+
+void comdriver_write(const char *text)
+{
+    puts(text);
+}
+
+void comdriver_clear(void)
+{
+    ;
+}
 #endif
 
 void setUp()

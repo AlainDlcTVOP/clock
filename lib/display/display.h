@@ -6,6 +6,11 @@
 #define DISPLAY_WIDTH 128
 #define DISPLAY_HEIGHT 296
 
+#define CENTER_X 1
+#define CENTER_SELF_X 2
+#define CENTER_SELF_Y 3
+#define CENTER_SELF_XY 4
+
 typedef struct
 {
     int x;
