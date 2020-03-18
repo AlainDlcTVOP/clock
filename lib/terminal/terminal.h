@@ -17,7 +17,7 @@ typedef struct
     void (*io_clear)(void);
 } io_interface_t;
 
-void terminal_begin(io_interface_t io_interface);
+void terminal_begin(io_interface_t *io_interface);
 void terminal_show_menu(void);
 char terminal_get_command(void);
 datetime_t terminal_get_date_time(void);

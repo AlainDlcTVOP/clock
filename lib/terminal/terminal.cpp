@@ -2,6 +2,10 @@
 
 #define DATETIME_FORMAT "YYYY-MM-DD HH:MM:SS"
 #define DATETIME_SIZE sizeof(DATETIME_FORMAT)
+#define ENDL_SIZE sizeof('\n')
+
+#define UNIX_DATETIME \
+    (datetime_t) { .second = 0, .minute = 0, .hour = 0, .day = 1, .month = 1, .year = 1970 }
 
 static char (*io_read)(void);
 static void (*io_clear)(void);
@@ -14,7 +18,14 @@ static datetime_t strtotime(char *buffer)
     sscanf(buffer, "%d-%d-%d %d:%d:%d", &datetime.year, &datetime.month, &datetime.day,
            &datetime.hour, &datetime.minute, &datetime.second);
 
-    return datetime;
+    if (datetime.year < 1970)
+    {
+        return UNIX_DATETIME;
+    }
+    else
+    {
+        return datetime;
+    }
 }
 
 void terminal_show_menu(void)
@@ -81,6 +92,10 @@ datetime_t terminal_get_date_time(void)
             chars_read++;
         }
     }
+    if (chars_read < DATETIME_SIZE - ENDL_SIZE)
+    {
+        return UNIX_DATETIME;
+    }
     io_write("\n");
     io_write(buffer);
     io_write("\n");
@@ -103,11 +118,11 @@ void terminal_show_error(const char *error)
     io_write(error);
 }
 
-void terminal_begin(io_interface_t io_interface)
+void terminal_begin(io_interface_t *io_interface)
 {
-    io_begin = io_interface.io_begin;
-    io_write = io_interface.io_write;
-    io_clear = io_interface.io_clear;
-    io_read = io_interface.io_read;
+    io_begin = io_interface->io_begin;
+    io_write = io_interface->io_write;
+    io_clear = io_interface->io_clear;
+    io_read = io_interface->io_read;
     io_begin();
 }
