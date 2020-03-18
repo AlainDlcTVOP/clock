@@ -35,14 +35,15 @@
 #define DOT_MEDIUM 2
 #define DOT_SMALL 1
 
+#define DEG_PER_TURN 360
+
 #define HOURS 12
 #define MINS_PER_HOUR 60
 #define QUARTERS 4
-#define HOUR_INTERVAL 30 // (360/12)
+#define HOUR_INTERVAL (DEG_PER_TURN / HOURS)
 #define MINUTE_INTERVAL (HOUR_INTERVAL / 5.0)
 #define HOUR_HAND_LENGTH (CLOCK_RADIUS * 0.55)
 #define MINUTE_HAND_LENGTH (CLOCK_RADIUS * 0.85)
-#define DEG_PER_TURN 360
 #define CLOCK_ANGLE_OFFSET -90.0
 #define DEG_PER_HOURS (DEG_PER_TURN / (HOURS * (double)MINS_PER_HOUR))
 #define DEG_PER_MINS (DEG_PER_TURN / MINS_PER_HOUR)
@@ -51,7 +52,7 @@
 
 static datetime_t (*get_current_time)(void);
 
-const char *months[] = {
+static const char *months[12] = {
     "January",
     "Febuary",
     "March",
@@ -70,10 +71,11 @@ static inline point_t coords_of_circle(point_t origo, double degrees, double rad
 {
     return {
         .x = origo.x + (int)round(radius * cos(radians(degrees))),
-        .y = origo.y + (int)round(radius * sin(radians(degrees)))};
+        .y = origo.y + (int)round(radius * sin(radians(degrees))),
+    };
 }
 
-void draw_clock()
+static void draw_clock()
 {
     point_t clock_dot;
 
@@ -92,7 +94,7 @@ void draw_clock()
     }
 }
 
-void draw_clock_hands(datetime_t datetime)
+static void draw_clock_hands(datetime_t datetime)
 {
     const double hour_degrees = (DEG_PER_HOURS * (MINS_PER_HOUR * (datetime.hour % HOURS) + datetime.minute)) + CLOCK_ANGLE_OFFSET;
     const double minute_degrees = (DEG_PER_MINS * datetime.minute) + CLOCK_ANGLE_OFFSET;

@@ -9,7 +9,8 @@
 #define DATETIME_SET 'S'
 #define DATETIME_GET 'G'
 
-typedef struct {
+typedef struct
+{
     void (*io_begin)(void);
     char (*io_read)(void);
     void (*io_write)(const char *text);
