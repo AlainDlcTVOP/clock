@@ -1,6 +1,7 @@
 #include <terminal.h>
 
 #define DATETIME_FORMAT "YYYY-MM-DD HH:MM:SS"
+#define DATETIME_SIZE sizeof(DATETIME_FORMAT)
 
 static char (*io_read)(void);
 static void (*io_clear)(void);
@@ -43,13 +44,16 @@ char terminal_get_command(void)
 
 static bool isvalid(char input, uint8_t chars_read)
 {
-    if (isdigit(input) && isalpha(DATETIME_FORMAT[chars_read]))
+    const char *correct_char;
+    correct_char = &DATETIME_FORMAT[chars_read];
+
+    if (isdigit(input) && isalpha(*correct_char))
         return true;
-    else if (isblank(input) && isblank(DATETIME_FORMAT[chars_read]))
+    else if (isblank(input) && isblank(*correct_char))
         return true;
-    else if (input == ':' && DATETIME_FORMAT[chars_read] == ':')
+    else if (input == ':' && *correct_char == ':')
         return true;
-    else if (input == '-' && DATETIME_FORMAT[chars_read] == '-')
+    else if (input == '-' && *correct_char == '-')
         return true;
     else
         return false;
@@ -57,14 +61,14 @@ static bool isvalid(char input, uint8_t chars_read)
 
 datetime_t terminal_get_date_time(void)
 {
-    char buffer[sizeof(DATETIME_FORMAT)] = {};
+    char buffer[DATETIME_SIZE] = {};
 
     // TEST
     io_write("\nEnter the current datetime (YYYY-MM-DD HH:MM:SS): ");
 
     uint8_t chars_read = 0;
     char input = 0;
-    while (input != NEW_LINE && chars_read < sizeof(DATETIME_FORMAT))
+    while (input != NEW_LINE && chars_read < DATETIME_SIZE)
     {
         input = io_read();
         if (isvalid(input, chars_read))
@@ -86,7 +90,7 @@ datetime_t terminal_get_date_time(void)
 
 void terminal_show_date_time(datetime_t datetime)
 {
-    char buffer[sizeof(DATETIME_FORMAT)] = {};
+    char buffer[DATETIME_SIZE] = {};
     sprintf(buffer, "%.4d-%.2d-%.2d %.2d:%.2d:%.2d", datetime.year, datetime.month, datetime.day,
             datetime.hour, datetime.minute, datetime.second);
     io_write("Current datetime: ");
