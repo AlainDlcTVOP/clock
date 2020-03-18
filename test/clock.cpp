@@ -151,7 +151,8 @@ void loop()
 void setup()
 {
     delay(DELAY);
-#else int main()
+#else
+int main()
 {
 #endif
     UNITY_BEGIN();
