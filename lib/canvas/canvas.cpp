@@ -18,14 +18,16 @@
 
 #define DATE_SECTION_HEIGHT 90
 
+#define CENTER_TEXT -1
+
 #define TEXT_PLACEMENT_DTIME \
-    (point_t) { -1, DATE_SECTION_HEIGHT + SECTION_BORDER }
+    (point_t) { .x = CENTER_TEXT, .y = DATE_SECTION_HEIGHT + SECTION_BORDER }
 #define TEXT_PLACEMENT_DAY \
-    (point_t) { -1, TEXT_PLACEMENT_DTIME.y + SECTION_BORDER }
+    (point_t) { .x = CENTER_TEXT, .y = TEXT_PLACEMENT_DTIME.y + SECTION_BORDER }
 #define TEXT_PLACEMENT_MONTH \
-    (point_t) { -1, TEXT_PLACEMENT_DAY.y + FONT_ROW_SPACING }
+    (point_t) { .x = CENTER_TEXT, .y = TEXT_PLACEMENT_DAY.y + FONT_ROW_SPACING }
 #define TEXT_PLACEMENT_YEAR \
-    (point_t) { -1, TEXT_PLACEMENT_MONTH.y + FONT_ROW_SPACING }
+    (point_t) { .x = CENTER_TEXT, .y = TEXT_PLACEMENT_MONTH.y + FONT_ROW_SPACING }
 
 #define CLOCK_ORIGO \
     (point_t) { DISPLAY_WIDTH / 2 - 1, 64 }
