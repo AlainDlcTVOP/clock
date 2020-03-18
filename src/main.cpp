@@ -16,7 +16,7 @@ void setup()
             .io_clear = comdriver_clear,
         };
 
-    terminal_begin(io_interface);
+    terminal_begin(&io_interface);
     timeservice_delay(DELAY);
 
     if (!canvas_init(timeservice_get_date_time) || !timeservice_timer_begin(canvas_update))
@@ -31,7 +31,6 @@ void setup()
 
 void loop()
 {
-    //canvas_update();
     terminal_show_menu();
     char command = terminal_get_command();
 

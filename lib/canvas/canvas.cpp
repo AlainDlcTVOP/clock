@@ -35,14 +35,15 @@
 #define DOT_MEDIUM 2
 #define DOT_SMALL 1
 
+#define DEG_PER_TURN 360
+
 #define HOURS 12
 #define MINS_PER_HOUR 60
 #define QUARTERS 4
-#define HOUR_INTERVAL 30 // (360/12)
+#define HOUR_INTERVAL (DEG_PER_TURN / HOURS)
 #define MINUTE_INTERVAL (HOUR_INTERVAL / 5.0)
 #define HOUR_HAND_LENGTH (CLOCK_RADIUS * 0.55)
 #define MINUTE_HAND_LENGTH (CLOCK_RADIUS * 0.85)
-#define DEG_PER_TURN 360
 #define CLOCK_ANGLE_OFFSET -90.0
 #define DEG_PER_HOURS (DEG_PER_TURN / (HOURS * (double)MINS_PER_HOUR))
 #define DEG_PER_MINS (DEG_PER_TURN / MINS_PER_HOUR)
@@ -51,7 +52,7 @@
 
 static datetime_t (*get_current_time)(void);
 
-const char *months[] = {
+static const char *months[12] = {
     "January",
     "Febuary",
     "March",
@@ -78,7 +79,8 @@ static inline point_t coords_of_circle(point_t origo, double degrees, double rad
 {
     return {
         .x = origo.x + (int)round(radius * cos(radians(degrees))),
-        .y = origo.y + (int)round(radius * sin(radians(degrees)))};
+        .y = origo.y + (int)round(radius * sin(radians(degrees))),
+    };
 }
 
 /**
