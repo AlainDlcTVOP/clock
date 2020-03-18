@@ -8,6 +8,12 @@ static void (*io_clear)(void);
 static void (*io_begin)(void);
 static void (*io_write)(const char *text);
 
+/**
+ * @brief char buffer to datetime_t
+ * 
+ * @param buffer 
+ * @return datetime_t
+ */
 static datetime_t strtotime(char *buffer)
 {
     datetime_t datetime;
@@ -17,12 +23,21 @@ static datetime_t strtotime(char *buffer)
     return datetime;
 }
 
+/**
+ * @brief Show terminal menu
+ * 
+ */
 void terminal_show_menu(void)
 {
     io_write("S) Set datetime\n");
     io_write("G) Get datetime\n");
 }
 
+/**
+ * @brief Get terminal input command
+ * 
+ * @return char command
+ */
 char terminal_get_command(void)
 {
     char command = 0;
@@ -42,6 +57,14 @@ char terminal_get_command(void)
     return command;
 }
 
+/**
+ * @brief Filter the input char against the input format
+ * 
+ * @param input 
+ * @param chars_read 
+ * @return true valid
+ * @return false invalid
+ */
 static bool isvalid(char input, uint8_t chars_read)
 {
     const char *correct_char;
@@ -59,6 +82,11 @@ static bool isvalid(char input, uint8_t chars_read)
         return false;
 }
 
+/**
+ * @brief Read the datetime from the command line
+ * 
+ * @return datetime_t
+ */
 datetime_t terminal_get_date_time(void)
 {
     char buffer[DATETIME_SIZE] = {};
@@ -88,6 +116,11 @@ datetime_t terminal_get_date_time(void)
     return strtotime(buffer);
 }
 
+/**
+ * @brief Print the current datetime
+ * 
+ * @param datetime 
+ */
 void terminal_show_date_time(datetime_t datetime)
 {
     char buffer[DATETIME_SIZE] = {};
@@ -98,12 +131,22 @@ void terminal_show_date_time(datetime_t datetime)
     io_write("\n");
 }
 
+/**
+ * @brief Print error message
+ * 
+ * @param error 
+ */
 void terminal_show_error(const char *error)
 {
     io_write(error);
 }
 
-void terminal_begin(io_interface_t io_interface)
+/**
+ * @brief Initialize the terminal
+ * 
+ * @param io_interface 
+ */
+void terminal_begin(io_interface_t *io_interface)
 {
     io_begin = io_interface.io_begin;
     io_write = io_interface.io_write;

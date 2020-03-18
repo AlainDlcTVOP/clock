@@ -66,6 +66,14 @@ const char *months[] = {
     "December",
 };
 
+/**
+ * @brief Get the coordinates of a point on a circle
+ * 
+ * @param origo 
+ * @param degrees 
+ * @param radius 
+ * @return point_t 
+ */
 static inline point_t coords_of_circle(point_t origo, double degrees, double radius)
 {
     return {
@@ -73,7 +81,11 @@ static inline point_t coords_of_circle(point_t origo, double degrees, double rad
         .y = origo.y + (int)round(radius * sin(radians(degrees)))};
 }
 
-void draw_clock()
+/**
+ * @brief Draw the clock face
+ * 
+ */
+static void draw_clock()
 {
     point_t clock_dot;
 
@@ -92,11 +104,17 @@ void draw_clock()
     }
 }
 
-void draw_clock_hands(datetime_t datetime)
+/**
+ * @brief Draw the clock hands
+ * 
+ * @param datetime 
+ */
+static void draw_clock_hands(datetime_t datetime)
 {
     const double hour_degrees = (DEG_PER_HOURS * (MINS_PER_HOUR * (datetime.hour % HOURS) + datetime.minute)) + CLOCK_ANGLE_OFFSET;
     const double minute_degrees = (DEG_PER_MINS * datetime.minute) + CLOCK_ANGLE_OFFSET;
 
+    // Check if overlapping
     if (hour_degrees != minute_degrees)
     {
         const point_t hour_hand = coords_of_circle(CLOCK_ORIGO, hour_degrees, HOUR_HAND_LENGTH);
@@ -107,6 +125,10 @@ void draw_clock_hands(datetime_t datetime)
     display_draw_line(CLOCK_ORIGO, minute_hand);
 }
 
+/**
+ * @brief Render the drawn content to the display
+ * 
+ */
 void canvas_update(void)
 {
     display_clear();
@@ -135,6 +157,13 @@ void canvas_update(void)
     display_refresh(false);
 }
 
+/**
+ * @brief Initialize the canvas
+ * 
+ * @param get_time 
+ * @return true 
+ * @return false 
+ */
 bool canvas_init(datetime_t (*get_time)(void))
 {
     bool status = display_init();

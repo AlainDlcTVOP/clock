@@ -86,6 +86,7 @@ void display_draw_text(point_t start, uint8_t font_size, const char *text)
     }
     else
     {
+        // Center the message
         const int padding = (DISPLAY_WIDTH - (sfont_ptr->Width * (strlen(text)))) / 2 - 1;
         paint.DrawStringAt(padding, start.y, text, sfont_ptr, BLACK);
     }
