@@ -1,8 +1,6 @@
 #include <unity.h>
 #include <canvas.h>
 #include <terminal.h>
-#include <stdio.h>
-#include <string.h>
 
 #define TEST_DATETIME_STRING "2011-12-03 09:05:03"
 #define TERMINAL_GOOD_DATETIME_TEST TEST_DATETIME_STRING "\n"
@@ -104,12 +102,6 @@ void test_terminal_process(const char *datetime_string)
     terminal_show_date_time(datetime_set);                    // Print datetime
 }
 
-#define TERMINAL_TEST(expected_string, test_string, test_buffer)                           \
-    {                                                                                      \
-        test_terminal_process(test_string);                                                \
-        TEST_ASSERT_EQUAL_STRING(TERMINAL_DATETIME_RESPONSE expected_string, test_buffer); \
-    }
-
 void test_terminal()
 {
     io_interface = {
@@ -120,11 +112,20 @@ void test_terminal()
     };
     terminal_begin(&io_interface);
 
-    TERMINAL_TEST(TERMINAL_GOOD_DATETIME_TEST, TERMINAL_GOOD_DATETIME_TEST, comdriver_output_buffer);
-    TERMINAL_TEST(TERMINAL_GOOD_DATETIME_TEST, TERMINAL_BAD_LENGTH_LONG_DATETIME_TEST, comdriver_output_buffer);
-    TERMINAL_TEST(TERMINAL_BAD_DATETIME_TEST_EXPECTED, TERMINAL_BAD_DATE_DATETIME_TEST, comdriver_output_buffer);
-    TERMINAL_TEST(TERMINAL_BAD_DATETIME_TEST_EXPECTED, TERMINAL_BAD_FORMAT_DATETIME_TEST, comdriver_output_buffer);
-    TERMINAL_TEST(TERMINAL_BAD_DATETIME_TEST_EXPECTED, TERMINAL_BAD_LENGTH_SHORT_DATETIME_TEST, comdriver_output_buffer);
+    test_terminal_process(TERMINAL_GOOD_DATETIME_TEST);
+    TEST_ASSERT_EQUAL_STRING(TERMINAL_DATETIME_RESPONSE TERMINAL_GOOD_DATETIME_TEST, comdriver_output_buffer);
+
+    test_terminal_process(TERMINAL_BAD_LENGTH_LONG_DATETIME_TEST);
+    TEST_ASSERT_EQUAL_STRING(TERMINAL_DATETIME_RESPONSE TERMINAL_GOOD_DATETIME_TEST, comdriver_output_buffer);
+
+    test_terminal_process(TERMINAL_BAD_DATE_DATETIME_TEST);
+    TEST_ASSERT_EQUAL_STRING(TERMINAL_DATETIME_RESPONSE TERMINAL_BAD_DATETIME_TEST_EXPECTED, comdriver_output_buffer);
+
+    test_terminal_process(TERMINAL_BAD_FORMAT_DATETIME_TEST);
+    TEST_ASSERT_EQUAL_STRING(TERMINAL_DATETIME_RESPONSE TERMINAL_BAD_DATETIME_TEST_EXPECTED, comdriver_output_buffer);
+
+    test_terminal_process(TERMINAL_BAD_LENGTH_SHORT_DATETIME_TEST);
+    TEST_ASSERT_EQUAL_STRING(TERMINAL_DATETIME_RESPONSE TERMINAL_BAD_DATETIME_TEST_EXPECTED, comdriver_output_buffer);
 }
 
 void test_init_canvas()

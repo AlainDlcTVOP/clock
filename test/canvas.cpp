@@ -1,6 +1,6 @@
+#ifndef INTEGRATION_TEST
 #include <canvas.h>
 
-#ifndef INTEGRATION_TEST
 static datetime_t (*get_current_time)(void);
 
 bool canvas_init(datetime_t (*get_time)(void))

@@ -2,8 +2,9 @@
 #define TERMINAL_H
 
 #include <common.h>
-#include <stdio.h>
 #include <ctype.h>
+#include <stdint.h>
+#include <stdio.h>
 
 #define NEW_LINE '\n'
 #define DATETIME_SET 'S'
